@@ -49,7 +49,7 @@ def parse_values(values, outfile):
                         strict=True
     )
 
-    writer = csv.writer(outfile, quoting=csv.QUOTE_MINIMAL)
+    writer = csv.writer(outfile, quoting=csv.QUOTE_MINIMAL, delimiter='\t')
     for reader_row in reader:
         for column in reader_row:
             # If our current string is empty...
@@ -97,7 +97,8 @@ def main():
         for line in fileinput.input():
             # Look for an INSERT statement and parse it.
             if not is_insert(line):
-                raise Exception("SQL INSERT statement could not be found!")
+                continue
+                #raise Exception("SQL INSERT statement could not be found!")
             values = get_values(line)
             if not values_sanity_check(values):
                 raise Exception("Getting substring of SQL INSERT statement after ' VALUES ' failed!")
